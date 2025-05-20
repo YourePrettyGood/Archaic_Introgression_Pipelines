@@ -425,14 +425,16 @@ workflow {
    //Convert input VCFs to BCFs:
    vcfs = modern_vcfs.mix(arc_vcfs)
    vcftobcf(vcfs)
-   bcfs = vcftobcf.out.bcf
+   vcftobcf.out.bcf
       .branch { src,chr,bcf,csi ->
          modern: src == "modern"
          arc: src == "archaic"
       }
-   bcfs_for_outgroup = bcfs.modern
+      .set { bcfs }
+   bcfs.modern
       .map { src,chr,bcf,csi -> [ chr, bcf, csi ] }
       .tap { bcfs_for_ingroup }
+      .set { bcfs_for_outgroup }
    arc_bcfs = bcfs.arc
       .ifEmpty({ [ "archaic", "1", file('no_arc.bcf'), file('no_arc.bcf.csi') ] })
       .map { src,chr,bcf,csi -> [ src, bcf, csi ] }
@@ -445,8 +447,9 @@ workflow {
       .join(refs, by: 0, failOnDuplicate: true, failOnMismatch: true)
    outgroup(outgroup_inputs, mask, indjson)
    cat_ogs(outgroup.out.outgroup.collect())
-   outgroup_for_mutrate = cat_ogs.out.outgroup
+   cat_ogs.out.outgroup
       .tap { outgroup_for_ingroup }
+      .set { outgroup_for_mutrate }
 
    //Estimate the mutation rate based on outgroup substitution density:
    mutrate(outgroup_for_mutrate, mask)
