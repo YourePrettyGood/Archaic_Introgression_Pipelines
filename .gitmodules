@@ -1,3 +1,6 @@
 [submodule "HumanPopGenScripts"]
 	path = HumanPopGenScripts
 	url = git@github.com:YourePrettyGood/HumanPopGenScripts
+[submodule "Archaic_Method_Comparison"]
+	path = Archaic_Method_Comparison
+	url = https://github.com/Chg-Liu/Archaic_Method_Comparison.git
