@@ -51,6 +51,12 @@ All Nextflow pipelines have been tested with Nextflow 22.10 and 24.10, though
 may not be compatible with the most recent versions of Nextflow due to
 breaking changes with the `shell:` process block.
 
+## Tool installation
+
+Currently the introgression tools are installed with Lmod modules.
+Work in progress is to create Dockerfiles of each tool to allow nextflow runs
+with docker/singularity.
+
 ## Limitations
 
 Current pipeline limitations include:
